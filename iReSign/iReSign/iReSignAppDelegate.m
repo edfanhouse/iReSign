@@ -14,6 +14,7 @@ static NSString *kKeyPrefsBundleIDChange            = @"keyBundleIDChange";
 static NSString *kKeyBundleIDPlistApp               = @"CFBundleIdentifier";
 static NSString *kKeyBundleIDPlistiTunesArtwork     = @"softwareVersionBundleId";
 static NSString *kKeyInfoPlistApplicationProperties = @"ApplicationProperties";
+static NSString *kKeyInfoPlistVersionProperties     = @"CFBundleShortVersionString";
 static NSString *kKeyInfoPlistApplicationPath       = @"ApplicationPath";
 static NSString *kFrameworksDirName                 = @"Frameworks";
 static NSString *kPayloadDirName                    = @"Payload";
@@ -170,6 +171,9 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
             if (changeBundleIDCheckbox.state == NSOnState) {
                 [self doBundleIDChange:bundleIDField.stringValue];
             }
+            if (versionChangeButton.state == NSOnState) {
+                [self doVersionChange:versionIDField.stringValue];
+            }
             
             if ([[provisioningPathField stringValue] isEqualTo:@""]) {
                 [self doCodeSigning];
@@ -213,6 +217,14 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
     return success;
 }
 
+- (BOOL)doVersionChange:(NSString *)newVersion {
+    BOOL success = YES;
+    
+    success &= [self doAppVersionChange:newVersion];
+    
+    return success;
+}
+
 
 - (BOOL)doITunesMetadataBundleIDChange:(NSString *)newBundleID {
     NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingPath error:nil];
@@ -245,6 +257,22 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
     return [self changeBundleIDForFile:infoPlistPath bundleIDKey:kKeyBundleIDPlistApp newBundleID:newBundleID plistOutOptions:NSPropertyListBinaryFormat_v1_0];
 }
 
+- (BOOL)doAppVersionChange:(NSString *)newVersionID {
+    NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[workingPath stringByAppendingPathComponent:kPayloadDirName] error:nil];
+    NSString *infoPlistPath = nil;
+    
+    for (NSString *file in dirContents) {
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"app"]) {
+            infoPlistPath = [[[workingPath stringByAppendingPathComponent:kPayloadDirName]
+                              stringByAppendingPathComponent:file]
+                             stringByAppendingPathComponent:kInfoPlistFilename];
+            break;
+        }
+    }
+    
+    return [self changeVersionForFile:infoPlistPath versionKey:kKeyInfoPlistVersionProperties newVersion:newVersionID plistOutOptions:NSPropertyListBinaryFormat_v1_0];
+}
+
 - (BOOL)changeBundleIDForFile:(NSString *)filePath bundleIDKey:(NSString *)bundleIDKey newBundleID:(NSString *)newBundleID plistOutOptions:(NSPropertyListWriteOptions)options {
     
     NSMutableDictionary *plist = nil;
@@ -262,6 +290,23 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
     return NO;
 }
 
+
+- (BOOL)changeVersionForFile:(NSString *)filePath versionKey:(NSString *)versionKey newVersion:(NSString *)newVersion plistOutOptions:(NSPropertyListWriteOptions)options {
+    
+    NSMutableDictionary *plist = nil;
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        plist = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+        [plist setObject:newVersion forKey:versionKey];
+        
+        NSData *xmlData = [NSPropertyListSerialization dataWithPropertyList:plist format:options options:kCFPropertyListImmutable error:nil];
+        
+        return [xmlData writeToFile:filePath atomically:YES];
+        
+    }
+    
+    return NO;
+}
 
 - (void)doProvisioning {
     NSArray *dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[workingPath stringByAppendingPathComponent:kPayloadDirName] error:nil];
@@ -704,6 +749,16 @@ static NSString *kiTunesMetadataFileName            = @"iTunesMetadata";
     }
     
     bundleIDField.enabled = changeBundleIDCheckbox.state == NSOnState;
+}
+
+- (IBAction)changeVersionPressed:(id)sender {
+
+    if (sender != versionChangeButton)
+    {
+        return;
+    }
+    
+    versionIDField.enabled = versionChangeButton.state == NSOnState;
 }
 
 - (void)disableControls {
