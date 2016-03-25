@@ -21,6 +21,8 @@
 /* Begin PBXFileReference section */
 		4C8EAD43185B74B90095DC6B /* IRHelpWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRHelpWindow.h; sourceTree = "<group>"; };
 		4C8EAD44185B74B90095DC6B /* IRHelpWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRHelpWindow.m; sourceTree = "<group>"; };
+		514909281CA536DF000CAC79 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		514909291CA536DF000CAC79 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5B9E4C4A166AB3F7006D9F8F /* IRTextFieldDrag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRTextFieldDrag.h; sourceTree = "<group>"; };
 		5B9E4C4B166AB3F7006D9F8F /* IRTextFieldDrag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRTextFieldDrag.m; sourceTree = "<group>"; };
 		C115EE2613815024003B9ACC /* iReSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iReSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,8 +39,6 @@
 		C115EE4013815024003B9ACC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		C142471E138174E500F5B51F /* ResourceRules.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ResourceRules.plist; sourceTree = "<group>"; };
 		C142472F1381B75B00F5B51F /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = ../Icon.icns; sourceTree = "<group>"; };
-		DF1BF30B18D76F3800AF6E6F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.xib"; sourceTree = "<group>"; };
-		DF1BF30C18D76F3800AF6E6F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +152,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				"zh-Hans",
+				fr,
 			);
 			mainGroup = C115EE1B13815023003B9ACC;
 			productRefGroup = C115EE2713815024003B9ACC /* Products */;
@@ -197,7 +197,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C115EE3413815024003B9ACC /* en */,
-				DF1BF30C18D76F3800AF6E6F /* zh-Hans */,
+				514909291CA536DF000CAC79 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C115EE4013815024003B9ACC /* en */,
-				DF1BF30B18D76F3800AF6E6F /* zh-Hans */,
+				514909281CA536DF000CAC79 /* fr */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
